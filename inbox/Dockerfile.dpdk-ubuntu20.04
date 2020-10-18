@@ -1,0 +1,4 @@
+FROM ubuntu:20.04
+WORKDIR /root
+RUN apt-get update; apt-get install -y rdma-core ibverbs-utils iperf3 dpdk
+ 
