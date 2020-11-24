@@ -1,10 +1,10 @@
-# mlnx-dockerfiles
+# k8s-images
 
 ## How to use this Docker image
 
 ```sh
-$ git clone https://github.com/moshe010/mlnx-dockerfiles.git
-$ cd mlnx-dockerfiles
+$ git clone https://github.com/Mellanox/k8s-images.git
+$ cd k8s-images
 $ docker build -f <Dockerfile> -t <tag> .
 ```
 
