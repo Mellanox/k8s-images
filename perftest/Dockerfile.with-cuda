@@ -1,13 +1,15 @@
-# Build image
-FROM nvidia/cuda:11.2.1-devel-ubuntu20.04 AS build
+ARG D_CUDA_IMAGE=nvidia/cuda:11.4.2-devel-ubuntu20.04
 
-ARG D_RDMA_CORE_TAG=v31.0
-ARG D_PERFTEST_TAG=4.4-0.29
+# Build image
+FROM ${D_CUDA_IMAGE} AS build
+
+ARG D_RDMA_CORE_TAG=v38.0
+ARG D_PERFTEST_TAG=v4.5-0.12
 
 WORKDIR /root
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install apt-utils git autotools-dev autoconf libtool build-essential \
-cmake gcc libudev-dev libnl-3-dev libnl-route-3-dev ninja-build pkg-config python3-dev cython3
+cmake gcc libudev-dev libnl-3-dev libnl-route-3-dev ninja-build pkg-config python3-dev cython3 libpci-dev
 
 # Compile and install rdma-core
 RUN git clone --branch ${D_RDMA_CORE_TAG} https://github.com/linux-rdma/rdma-core.git
@@ -17,7 +19,7 @@ RUN git clone --branch ${D_PERFTEST_TAG} https://github.com/linux-rdma/perftest.
 RUN /bin/bash -c 'cd /root/perftest && export CUDA_H_PATH=/usr/local/cuda/include/cuda.h && ./autogen.sh && ./configure && make'
 
 # Application image
-FROM nvidia/cuda:11.2.1-devel-ubuntu20.04
+FROM ${D_CUDA_IMAGE}
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install pciutils net-tools iproute2 libnl-3-dev libnl-route-3-dev
