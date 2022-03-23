@@ -1,4 +1,4 @@
 FROM ubuntu:20.04
 ARG VERSION=latest
 WORKDIR /root
-RUN apt-get update ; apt-get install -y software-properties-common ; add-apt-repository 'deb http://linux.mellanox.com/public/repo/mlnx_ofed/latest/ubuntu20.04/x86_64 ./'; apt-get update --allow-insecure-repositories; apt-get install --allow-unauthenticated -y rdma-core ibverbs-utils iperf3 
+RUN apt-get update ; apt-get install -y software-properties-common ; add-apt-repository 'deb http://linux.mellanox.com/public/repo/mlnx_ofed/${VERSION}/ubuntu20.04/x86_64 ./'; apt-get update --allow-insecure-repositories; apt-get install --allow-unauthenticated -y rdma-core ibverbs-utils iperf3
