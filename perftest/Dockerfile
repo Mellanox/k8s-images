@@ -1,13 +1,13 @@
 # Build image
 FROM ubuntu:18.04 AS build
 
-ARG D_RDMA_CORE_TAG=v31.0
-ARG D_PERFTEST_TAG=4.4-0.29
+ARG D_RDMA_CORE_TAG=v38.0
+ARG D_PERFTEST_TAG=v4.5-0.14
 
 WORKDIR /root
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install apt-utils git autotools-dev autoconf libtool build-essential \
-cmake gcc libudev-dev libnl-3-dev libnl-route-3-dev ninja-build pkg-config python3-dev cython3
+cmake gcc libudev-dev libnl-3-dev libnl-route-3-dev ninja-build pkg-config python3-dev cython3 pciutils-dev
 
 # Compile and install rdma-core
 RUN git clone --branch ${D_RDMA_CORE_TAG} https://github.com/linux-rdma/rdma-core.git
