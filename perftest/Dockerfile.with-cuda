@@ -4,7 +4,7 @@ ARG D_CUDA_IMAGE=nvidia/cuda:11.4.2-devel-ubuntu20.04
 FROM ${D_CUDA_IMAGE} AS build
 
 ARG D_RDMA_CORE_TAG=v38.0
-ARG D_PERFTEST_TAG=v4.5-0.12
+ARG D_PERFTEST_TAG=v4.5-0.14
 
 WORKDIR /root
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
