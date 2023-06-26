@@ -1,0 +1,5 @@
+FROM quay.io/centos/centos:stream9
+ARG VERSION=latest
+RUN yum install -y wget
+WORKDIR /etc/yum.repos.d
+RUN wget https://linux.mellanox.com/public/repo/mlnx_ofed/${VERSION}/rhel9.2/mellanox_mlnx_ofed.repo ; yum install -y rdma-core libibverbs-utils iperf3 mlnx-dpdk-tools
