@@ -1,5 +1,0 @@
-FROM centos:centos8.2.2004
-ARG VERSION=latest
-RUN yum install -y wget
-WORKDIR /etc/yum.repos.d
-RUN wget https://linux.mellanox.com/public/repo/mlnx_ofed/${VERSION}/rhel8.2/mellanox_mlnx_ofed.repo ; yum install -y rdma-core libibverbs-utils iperf3 mlnx-dpdk-tools 
