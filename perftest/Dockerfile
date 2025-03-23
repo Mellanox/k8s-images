@@ -20,13 +20,14 @@ RUN /bin/bash -c 'cd /root/perftest && ./autogen.sh && ./configure && make'
 FROM ubuntu:24.04
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install pciutils net-tools iproute2 libnl-3-dev libnl-route-3-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install pciutils net-tools iproute2 libnl-3-dev libnl-route-3-dev iputils-ping
 WORKDIR /root
 
-# Install rdma-core and delete sources
+# Install rdma-core and rping
 COPY --from=build /root/rdma-core ./rdma-core
 RUN /bin/bash -c 'cd ./rdma-core/build && cp -R lib/* /usr/lib && cp -R etc/* /etc/ && cp -R include/* /usr/include/'
-RUN rm -rf ./rdma-core
+# The rdma-core build is configured to run all the programs 'in-place' and cannot be installed.
+RUN ln -s /root/rdma-core/build/bin/rping /usr/bin/rping
 
 # Install perftest and delete sources
 COPY --from=build /root/perftest ./perftest
