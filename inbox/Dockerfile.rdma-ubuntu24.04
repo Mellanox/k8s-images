@@ -1,0 +1,15 @@
+# Build image
+FROM ubuntu:24.04
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install perftest
+RUN mkdir -p /home
+RUN addgroup perftest
+RUN useradd --create-home -d /home/perftest --gid perftest perftest 
+RUN chown -R perftest:perftest /home/perftest
+RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install perftest libcap2-bin infiniband-diags iproute2 ibverbs-utils rdmacm-utils
+RUN for F in /usr/bin/ib_*;do setcap cap_ipc_lock=+ep $F;done
+WORKDIR /home/perftest
+
+#ADD ./entrypoint.sh ./
+ENTRYPOINT ["/bin/sh", "-c", "sleep", "inf"]
